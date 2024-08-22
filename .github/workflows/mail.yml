@@ -28,7 +28,7 @@ jobs:
             Commit: ${{ github.event.head_commit.message }}
             Message: ${{ github.event.head_commit.message }}
             Pushed by: ${{ github.actor }}
-          to: 'meru.techcurve@gmail.com'
+          to: 'laleshan7@gmail.com'
           from: ${{ secrets.EMAIL_USERNAME }}
 
   notify-pull:
@@ -50,5 +50,5 @@ jobs:
             Branch: ${{ github.base_ref }}
             Action: ${{ github.event.action }}
             Pulled by: ${{ github.actor }}
-          to: 'meru.techcurve@gmail.com'
-          from: ${{ secrets.EMAIL_USERNAME }}
+            to: 'laleshan7@gmail.com'
+            from: ${{ secrets.EMAIL_USERNAME }}
