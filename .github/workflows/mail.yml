@@ -1,0 +1,54 @@
+name: Notify on Push or Pull Request
+
+on:
+  push:
+    branches:
+      - dev # Triggers on any branch
+  pull_request:
+    types: [opened, edited, closed]
+
+jobs:
+  notify-push:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Email Notification for Push
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: |
+            ${{ github.repository }}: Code Pushed by ${{ github.actor }} in ${{ github.ref_name }} -m "${{ github.event.head_commit.message }}"
+          body: |
+            A new push has been requested to the repository.
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.event.head_commit.message }}
+            Message: ${{ github.event.head_commit.message }}
+            Pushed by: ${{ github.actor }}
+          to: 'meru.techcurve@gmail.com'
+          from: ${{ secrets.EMAIL_USERNAME }}
+
+  notify-pull:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Email Notification for Pull Request
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: |
+            ${{ github.repository }}: Requested Code Pull by ${{ github.actor }} in ${{ github.base_ref }}
+          body: |
+            A new pull request has been made to the repository.
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.base_ref }}
+            Action: ${{ github.event.action }}
+            Pulled by: ${{ github.actor }}
+          to: 'meru.techcurve@gmail.com'
+          from: ${{ secrets.EMAIL_USERNAME }}
